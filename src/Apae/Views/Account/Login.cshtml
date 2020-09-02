@@ -1,0 +1,42 @@
+﻿@model Apae.Models.Account.LoginModel
+
+<div class="text-center">
+    <h1 class="h4 text-gray-900 mb-4">Bienvenido!</h1>
+</div>
+<form asp-action="Login" class="user">
+
+    <div asp-validation-summary="ModelOnly" class="text-danger list-unstyled"></div>
+
+    <div class="form-group">
+        <input asp-for="Email" class="form-control form-control-user" placeholder="Email" />
+    </div>
+    <div class="form-group">
+        <input asp-for="Password" class="form-control form-control-user" type="password" placeholder="Senha" />
+    </div>
+    <div class="form-group">
+        <div class="custom-control custom-checkbox small">
+            <input asp-for="RememberMe" class="custom-control-input" />
+            <label asp-for="RememberMe" class="custom-control-label">Lembrar de min</label>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <input type="submit" value="Login" class="btn btn-primary btn-user btn-block" />
+    </div>
+
+    @*<hr>
+    <a href="index.html" class="btn btn-google btn-user btn-block">
+        <i class="fab fa-google fa-fw"></i> Login with Google
+    </a>
+    <a href="index.html" class="btn btn-facebook btn-user btn-block">
+        <i class="fab fa-facebook-f fa-fw"></i> Login with Facebook
+    </a>*@
+</form>
+
+<hr>
+<div class="text-center">
+    <a class="small" asp-action="ForgotPassword">Esqueceu a senha?</a>
+</div>
+@*<div class="text-center">
+    <a class="small" href="register.html">Create an Account!</a>
+</div>*@

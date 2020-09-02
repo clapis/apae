@@ -1,0 +1,56 @@
+﻿@using Apae.Extensions
+@model Apae.Models.Beneficiaries.BeneficiaryDetails
+
+<h1 class="h3 mb-4 text-gray-800">@Model.FullName</h1>
+
+<div class="row">
+    <div class="col-lg-7">
+        <partial name="_Benefits" />
+    </div>
+
+    <div class="col-lg-5">
+        <div class="card shadow mb-4">
+            <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                <h6 class="m-0 font-weight-bold text-primary">Beneficiário</h6>
+                <a asp-action="Update" asp-route-id="@Model.Id" class="btn btn-sm btn-primary shadow-sm">
+                    <i class="fas fa-edit fa-sm text-white-50"></i>
+                </a>
+            </div>
+            <div class="card-body">
+                <dl class="row">
+                    <dt class="col-sm-4">NIS CadÚnico</dt>
+                    <dd class="col-sm-8">@Model.NIS.Fallback("-")</dd>
+
+                    <dt class="col-sm-4">CPF</dt>
+                    <dd class="col-sm-8">@Model.CPF</dd>
+
+                    <dt class="col-sm-4">Nome</dt>
+                    <dd class="col-sm-8">@Model.FullName</dd>
+
+                    <dt class="col-sm-4">Nascimento</dt>
+                    <dd class="col-sm-8">@(Model.Dob?.ToBirthDate() ?? "-")</dd>
+
+                    <dt class="col-sm-4">Telefone</dt>
+                    <dd class="col-sm-8">@Model.PhoneNumber.Fallback("-")</dd>
+
+                    <dt class="col-sm-4">Endereço</dt>
+                    <dd class="col-sm-8">@Model.Address.Fallback("-")</dd>
+
+                    @if (!string.IsNullOrWhiteSpace(Model.Notes))
+                    {
+                        <dt class="col-sm-4">Observações</dt>
+                        <dd class="col-sm-8">@Model.Notes</dd>
+                    }
+
+                </dl>
+
+            </div>
+        </div>
+
+        <partial name="_Family" />
+
+    </div>
+
+</div>
+
+

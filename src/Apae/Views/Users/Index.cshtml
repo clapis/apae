@@ -1,0 +1,45 @@
+﻿@model IEnumerable<Apae.Models.Users.UserListItem>
+
+<div class="d-flex align-items-center justify-content-between mb-4">
+    <h1 class="h3 mb-0 text-gray-800">Usuários</h1>
+    <a asp-controller="Users" asp-action="Create"
+       class="btn btn-sm btn-primary shadow-sm">
+        <i class="fas fa-user-plus fa-sm text-white-50 mr-1"></i>
+        <span class="d-none d-sm-inline-block">Adicionar</span>
+    </a>
+</div>
+
+<div class="card shadow mb-4">
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-hover">
+                <thead>
+                <tr>
+                    <th>Nome</th>
+                    <th class="d-none d-lg-table-cell">Email</th>
+                    <th class="d-none d-md-table-cell">Telefone</th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody>
+
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>@item.FullName</td>
+                            <td class="d-none d-lg-table-cell">@item.Email</td>
+                            <td class="d-none d-md-table-cell">@item.PhoneNumber</td>
+                            <td>
+                                <a asp-controller="Users" asp-action="Update" asp-route-id="@item.Id" class="btn btn-circle btn-primary">
+                                    <i class="fas fa-edit fa-sm"></i>
+                                </a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+

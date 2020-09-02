@@ -1,0 +1,95 @@
+﻿@using Apae.Authorization
+@using Microsoft.AspNetCore.Authorization
+@inject IAuthorizationService AuthorizationService
+@model Apae.Models.Beneficiaries.UpdateBeneficiary
+
+<div class="d-sm-flex align-items-center justify-content-between mb-4">
+    <h1 class="h3 mb-4 text-gray-800">Detalhes do Beneficiário</h1>
+    @if ((await AuthorizationService.AuthorizeAsync(User, Policies.CanDelete)).Succeeded)
+    {
+        <button type="button" data-toggle="modal" data-target="#remove-beneficiary-modal"
+                class="btn btn-sm btn-danger shadow-sm d-none d-md-inline-block">
+            <i class="fas fa-user-slash fa-sm text-white-50 mr-1"></i>
+            <span class="d-none d-md-inline-block">Remover</span>
+        </button>
+    }
+</div>
+
+<div class="row">
+    <div class="col-lg-8 col-xl-6">
+        <div class="card shadow mb-4">
+            <div class="card-body">
+                <form asp-action="Update" asp-route-id="@Model.Id">
+                    <input type="hidden" asp-for="Id" />
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <div class="form-group">
+                        <label asp-for="NIS" class="control-label"></label>
+                        <input asp-for="NIS" class="form-control" />
+                        <span asp-validation-for="NIS" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="CPF" class="control-label"></label>
+                        <input asp-for="CPF" class="form-control" />
+                        <span asp-validation-for="CPF" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="FirstName" class="control-label">Nome</label>
+                        <input asp-for="FirstName" class="form-control" />
+                        <span asp-validation-for="FirstName" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="LastName" class="control-label">Sobrenome</label>
+                        <input asp-for="LastName" class="form-control" />
+                        <span asp-validation-for="LastName" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Dob" class="control-label">Data de Nascimento</label>
+                        <input asp-for="Dob" type="date" class="form-control" />
+                        <span asp-validation-for="Dob" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="PhoneNumber" class="control-label">Telefone</label>
+                        <input asp-for="PhoneNumber" type="tel" class="form-control" />
+                        <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Address" class="control-label">Endereço</label>
+                        <textarea asp-for="Address" class="form-control"></textarea>
+                        <span asp-validation-for="Address" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Notes" class="control-label">Observações</label>
+                        <textarea asp-for="Notes" class="form-control"></textarea>
+                        <span asp-validation-for="Notes" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <input type="submit" value="Atualizar" class="btn btn-primary" />
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="remove-beneficiary-modal" tabindex="-1" role="dialog" aria-labelledby="modal-title" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modal-title">Remover Beneficiário</h5>
+                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="remove-beneficiary-form" asp-action="Delete" asp-route-id="@Model.Id">
+                    O beneficiário será removido, assim como todos os beneficios registrados. Tem certeza?
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancelar</button>
+                <button class="btn btn-danger" type="submit" form="remove-beneficiary-form">Remover</button>
+            </div>
+        </div>
+    </div>
+</div>

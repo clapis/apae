@@ -1,0 +1,55 @@
+﻿@using Apae.Authorization
+@using Microsoft.AspNetCore.Authorization
+@inject IAuthorizationService AuthorizationService
+@model Apae.Models.Users.UpdateUser
+
+<div class="d-sm-flex align-items-center justify-content-between mb-4">
+    <h1 class="h3 mb-4 text-gray-800">Detalhes do Usuário</h1>
+    @if ((await AuthorizationService.AuthorizeAsync(User, Policies.CanDelete)).Succeeded)
+    {
+        <form asp-action="Delete" asp-route-userId="@Model.Id">
+            <button class="d-none d-sm-inline-block btn btn-sm btn-danger shadow-sm">
+                <i class="fas fa-user-slash fa-sm text-white-50 mr-1"></i>Remover
+            </button>
+        </form>
+    }
+</div>
+
+
+<div class="row">
+    <div class="col-lg-8 col-xl-6">
+        <div class="card shadow mb-4">
+            <div class="card-body">
+                <form asp-action="Update" asp-route-id="@Model.Id">
+                    <input type="hidden" asp-for="Id" />
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <div class="form-group">
+                        <label asp-for="Email" class="control-label"></label>
+                        <input asp-for="Email" class="form-control" readonly="readonly" />
+                        <span asp-validation-for="Email" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="FirstName" class="control-label">Nome</label>
+                        <input asp-for="FirstName" class="form-control" />
+                        <span asp-validation-for="FirstName" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for="LastName" class="control-label">Sobrenome</label>
+                        <input asp-for="LastName" class="form-control" />
+                        <span asp-validation-for="LastName" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="PhoneNumber" class="control-label">Telefone</label>
+                        <input asp-for="PhoneNumber" type="tel" class="form-control" />
+                        <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <input type="submit" value="Atualizar" class="btn btn-primary" />
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

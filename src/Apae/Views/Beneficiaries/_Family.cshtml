@@ -1,0 +1,67 @@
+﻿@using Apae.Extensions 
+@using Apae.Models.Family
+@model Apae.Models.Beneficiaries.BeneficiaryDetails
+
+<div class="card shadow mb-4">
+    <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+        <h6 class="m-0 font-weight-bold text-primary">Membros da Família (@Model.Family.Count)</h6>
+        <button type="button"
+                data-toggle="modal" data-target="#add-family-modal"
+                class="btn btn-sm btn-primary shadow-sm">
+            <i class="fas fa-user-plus fa-sm text-white-50 mr-1"></i>
+        </button>
+    </div>
+    <div class="card-body p-1">
+
+        <ul class="list-group list-group-flush">
+            @foreach (var member in Model.Family)
+            {
+            <li class="list-group-item d-flex justify-content-between align-items-baseline">
+                <div class="mr-3">
+                    <p class="mb-0">
+                        <span class="text-dark">@member.FullName</span>
+                        @if (member.Dob.HasValue)
+                        {
+                            <span>(@member.Dob.Value.Age() anos)</span>
+                            @if (member.Dob.Value.IsBirthday())
+                            {
+                                <text> &#x1f381; </text>
+                            }
+                        }
+                    </p>
+                    <p class="mb-0">@member.Notes</p>
+                </div>
+                <div class="ml-2">
+                    <a asp-controller="Family" asp-action="Update" asp-route-id="@member.Id">
+                        <i class="fas fa-chevron-right fa-sm fa-fw text-gray-400"></i>
+                    </a>
+                </div>
+                    @*
+            <div class="dropdown ml-2">
+                <a class="" href="#" role="button" data-toggle="dropdown" >
+                    <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
+                </a>
+                <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in">
+                    <a class="dropdown-item" asp-controller="Family" asp-action="Update" asp-route-id="@member.Id">
+                        <i class="fas fa-edit fa-sm text-primary mr-2"></i>Editar
+                    </a>
+                    <a class="dropdown-item" href="#">
+                        <i class="fas fa-trash fa-sm text-danger mr-2"></i>Remover
+                    </a>
+                </div>
+            </div>
+                    *@
+            </li>
+            }
+        </ul>
+
+
+        @if (!Model.Family.Any())
+        {
+            <p class="m-4">Nenhum membro registrado.</p>
+        }
+    </div>
+</div>
+
+<partial name="../Family/_CreateModal.cshtml" model="new CreateFamilyMember { BeneficiaryId = Model.Id }" />
+

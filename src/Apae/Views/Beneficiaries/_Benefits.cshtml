@@ -1,0 +1,66 @@
+﻿@using Apae.Extensions
+@using Apae.Authorization
+@using Apae.Models.Benefits
+@using Microsoft.AspNetCore.Authorization
+@inject IAuthorizationService AuthorizationService
+@model Apae.Models.Beneficiaries.BeneficiaryDetails
+
+@{
+    var blocks = Model.Benefits.ToLookup(k => new { k.DeliveredOn.Year, k.DeliveredOn.Month })
+        .OrderByDescending(v => v.Key.Year)
+        .ThenByDescending(v => v.Key.Month);
+}
+
+<div class="card shadow mb-4">
+    <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+        <h6 class="m-0 font-weight-bold text-primary">Cestas Básicas Registradas</h6>
+        <button type="button"
+                data-toggle="modal" data-target="#create-benefit-modal"
+                class="btn btn-sm btn-success shadow-sm">
+            <i class="fas fa-hand-holding-heart fa-sm text-white-50"></i>
+            @*<span class="d-none d-sm-inline-block ml-1">Registrar</span>*@
+        </button>
+    </div>
+    <div class="card-body">
+
+        <div>
+            @foreach (var block in blocks)
+            {
+                <p class="text-center font-weight-bold">@block.Key.Month.ToMonthName() @block.Key.Year</p>
+                <ul class="timeline">
+                    @foreach (var item in block.OrderByDescending(c => c.DeliveredOn).ThenByDescending(c => c.CreatedOn))
+                    {
+                        <li>
+                            <div class="float-right">
+                                @if ((await AuthorizationService.AuthorizeAsync(User, Policies.CanDelete)).Succeeded)
+                                {
+                                    <form asp-controller="Benefits" asp-action="Delete" asp-route-id="@item.Id">
+                                        <button type="submit"
+                                                class="d-none d-lg-inline-block btn btn-sm btn-danger shadow-sm">
+                                            <i class="fas fa-trash fa-xs text-white-50"></i>
+                                        </button>
+                                    </form>
+                                }
+                            </div>
+
+                            <span class="text-dark">@item.DeliveredOn.ToShortDateString()</span>
+                            <p class="mb-0 mr-5">@item.Notes</p>
+                            <p>@item.RegisteredBy (@item.CreatedOn.Humanize())</p>
+                        </li>
+                    }
+                </ul>
+            }
+
+            @if (!Model.Benefits.Any())
+            {
+                <p>Nenhuma cesta registrada.</p>
+            }
+
+        </div>
+
+    </div>
+</div>
+
+
+
+<partial name="../Benefits/_CreateModal.cshtml" model="new CreateBenefit { BeneficiaryId = Model.Id, DeliveredOn = DateTime.UtcNow.FromUtcToBrazil().Date }" />

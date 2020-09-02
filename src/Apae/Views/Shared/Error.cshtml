@@ -1,0 +1,30 @@
+﻿@model ErrorViewModel
+
+@{
+    Layout = "_Layout";
+}
+
+<div class="container-fluid">
+
+    <div class="text-center my-5">
+        <div class="error mx-auto" data-text="@Model.Status">@Model.Status</div>
+        <p class="lead text-gray-800 mb-5">@Model.StatusDescription</p>
+        <p class="text-gray-500 mb-0">Parece que voce encontrou uma falha na matrix...</p>
+        @if (Model.ShowRequestId)
+        {
+            <p>
+                <strong>Request ID:</strong> <code>@Model.RequestId</code>
+            </p>
+        }
+        <a href="/">&larr; Tangram Social</a>
+
+    </div>
+
+
+
+</div>
+
+
+
+
+
