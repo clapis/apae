@@ -1,6 +1,6 @@
 
 # Application Data
-data/
+/data/
 
 # Mac
 .DS_Store
